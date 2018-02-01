@@ -5,8 +5,14 @@
 <mapper namespace="com.hb.sts4x.model.GuestDao">
 
 	<select id="selectAll" resultType="com.hb.sts4x.model.entity.GuestVo">
-	select * from guest order by idx desc
+	SELECT * FROM GUEST ORDER BY IDX DESC
+	</select>
+	<select id="selectOne" parameterType="int" resultType="com.hb.sts4x.model.entity.GuestVo">
+	SELECT * FROM GUEST WHERE IDX=#{idx}
 	</select>
 
+	<insert id="insertOne" parameterType="com.hb.sts4x.model.entity.GuestVo">
+	INSERT INTO GUEST (SUB,CONTENT,CNT) VALUES (#{sub},#{content},0)
+	</insert>
 
 </mapper>

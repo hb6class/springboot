@@ -12,11 +12,22 @@ import com.hb.sts4x.model.entity.GuestVo;
 public class GuestDaoImpl implements GuestDao {
 	@Autowired
 	SqlSession sqlSession;
+	
+	String namespace="com.hb.sts4x.model.GuestDao.";
 
 	@Override
 	public List<GuestVo> selectAll() throws Exception {
-		// TODO Auto-generated method stub
-		return sqlSession.selectList("com.hb.sts4x.model.GuestDao.selectAll");
+		return sqlSession.selectList(namespace+"selectAll");
+	}
+
+	@Override
+	public void insertOne(GuestVo bean) throws Exception {
+		sqlSession.insert(namespace+"insertOne", bean);
+	}
+
+	@Override
+	public GuestVo selectOne(int idx) throws Exception {
+		return sqlSession.selectOne(namespace+"selectOne", idx);
 	}
 
 }
