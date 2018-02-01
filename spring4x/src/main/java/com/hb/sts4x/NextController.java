@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -31,4 +32,28 @@ public class NextController {
 		System.out.println(bean);
 		guestDao.insertOne(bean);
 	}
+	
+	
+	@RequestMapping(value="/{1}",method=RequestMethod.DELETE)
+	public void deleteOne(@PathVariable("1") int idx) throws Exception{
+		guestDao.delOne(idx);
+	}
+	@RequestMapping(value="/{1}",method=RequestMethod.PUT)
+	public void editOne(@PathVariable("1") int idx,@RequestBody GuestVo bean) throws Exception{
+		bean.setIdx(idx);
+		System.out.println("update:"+bean);
+		System.out.println(guestDao.editOne(bean));
+	}
 }
+
+
+
+
+
+
+
+
+
+
+
+

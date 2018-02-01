@@ -18,6 +18,7 @@
 <script type="text/javascript">
 
 	$(function() {
+		var show=true;
 		init();
 		$('#myModal form').submit(function(e) {
 			e.preventDefault();
@@ -29,7 +30,60 @@
 			console.log("idx:"+idx);
 			selectOne(idx);
 		});
+		
+		$('#detailModal .modal-footer>button').eq(0).click(function() {
+			if(show){
+				$('#detailModal input').attr('type','text');
+				$('.detail').hide();
+			}else{
+				$('#detailModal input').attr('type','hidden');
+				$('.detail').show();
+				editOne();
+			}
+			show=!show;
+		});
+		$('#detailModal .modal-footer>button').eq(1).click(function() {
+			console.log("delete:"+$('.detail').eq(0).text());
+			var idx=$('.detail').eq(0).text();
+			deleteOne(idx);
+			init();
+			$('#detailModal').modal('hide');
+		});
 	});
+	
+	function editOne() {
+		var sub=$('#detailModal input').eq(1).val();
+		var content=$('#detailModal input').eq(2).val();
+		var param=JSON.stringify({
+			'sub':sub,
+			'content':content
+		});
+		$.ajax({
+			headers:{
+				'Accept':'application/json',
+				'Content-Type':'application/json'
+			},
+			type:'put',
+			url:'http://localhost:8080/sts4x/'+$('.detail').eq(0).text(),
+			data:param,
+			dataType:'text',
+			success:function(){
+				init();
+				$('#detailModal').modal('hide');
+			}
+		});
+	}
+	
+	function deleteOne(idx) {
+		$.ajax({
+			type:'delete',
+			url:'http://localhost:8080/sts4x/'+idx,
+			success:function(){
+				console.log('delete ok');
+				
+			}
+		});
+	}
 	
 	function insertOne() {
 		var data =$('#myModal form').serialize();
@@ -39,7 +93,17 @@
 	}
 	
 	function selectOne(idx) {
-		
+		$.getJSON('http://localhost:8080/sts4x/'+idx,
+						function(data){
+			$('.detail').eq(0).text(data.idx);
+			$('#detailModal input').eq(0).val(data.idx);
+			$('.detail').eq(1).text(data.sub);
+			$('#detailModal input').eq(1).val(data.sub);
+			$('.detail').eq(2).text(data.content);
+			$('#detailModal input').eq(2).val(data.content);
+			$('.detail').eq(3).text(data.cnt);
+			$('#detailModal input').eq(3).val(data.cnt);
+		});
 	}
 	
 	function init() {
@@ -73,7 +137,7 @@
 		
 		<!-- popup -->
 		<!-- Trigger the modal with a button -->
-<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Open Modal</button>
+<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">글쓰기</button>
 
 <!-- Modal -->
 <div id="myModal" class="modal fade" role="dialog">
@@ -119,23 +183,29 @@
       </div>
       <div class="modal-body">
       		<p>
-      			<span>글번호</span>
+      			<label for="idx">글번호</label>
       			<span class="detail"></span>
+      			<input type="hidden" id="idx" readonly="readonly">
       		</p>
       		<p>
-      			<span>제목</span>
+      			<label for="sub">제목</label>
       			<span class="detail"></span>
+      			<input type="hidden" id="sub">
       		</p>
       		<p>
-      			<span>내용</span>
+      			<label for="content">내용</label>
       			<span class="detail"></span>
+      			<input type="hidden" id="content">
       		</p>
       		<p>
-      			<span>조회수</span>
+      			<label for="cnt">조회수</label>
       			<span class="detail"></span>
+      			<input type="hidden" id="cnt">
       		</p>
       </div>
       <div class="modal-footer">
+        <button type="button" class="btn btn-default" >수정</button>
+        <button type="button" class="btn btn-default" >삭제</button>
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
       </div>
     </div>

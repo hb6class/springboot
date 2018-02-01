@@ -9,4 +9,6 @@ public interface GuestDao {
 	List<GuestVo> selectAll() throws Exception;
 	GuestVo selectOne(int idx) throws Exception;
 	void insertOne(GuestVo bean) throws Exception;
+	int delOne(int idx) throws Exception;
+	int editOne(GuestVo bean) throws Exception;
 }

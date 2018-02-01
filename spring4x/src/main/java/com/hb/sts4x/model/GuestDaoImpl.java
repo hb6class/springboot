@@ -30,4 +30,14 @@ public class GuestDaoImpl implements GuestDao {
 		return sqlSession.selectOne(namespace+"selectOne", idx);
 	}
 
+	@Override
+	public int delOne(int idx) throws Exception {
+		return sqlSession.delete(namespace+"delOne", idx);
+	}
+
+	@Override
+	public int editOne(GuestVo bean) throws Exception {
+		return sqlSession.update(namespace+"editOne",bean);
+	}
+
 }

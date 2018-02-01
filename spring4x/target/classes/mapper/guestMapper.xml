@@ -14,5 +14,13 @@
 	<insert id="insertOne" parameterType="com.hb.sts4x.model.entity.GuestVo">
 	INSERT INTO GUEST (SUB,CONTENT,CNT) VALUES (#{sub},#{content},0)
 	</insert>
+	
+	<delete id="delOne" parameterType="int">
+	DELETE FROM GUEST WHERE IDX=#{idx}
+	</delete>
+	
+	<update id="editOne" parameterType="com.hb.sts4x.model.entity.GuestVo">
+	UPDATE GUEST SET SUB=#{sub}, CONTENT=#{content} WHERE IDX=#{idx}
+	</update>
 
 </mapper>
